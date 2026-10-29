@@ -1,0 +1,57 @@
+{
+  "name": "magpie-aggregate-repair",
+  "version": "0.3.0",
+  "description": "Magpie middleware for invalid Responses item IDs after an upstream channel switch",
+  "type": "module",
+  "files": [
+    "middleware.mjs",
+    "page",
+    "README.md",
+    "LICENSE",
+    "examples/options.json"
+  ],
+  "scripts": {
+    "check": "node --check middleware.mjs && node --check page/app.js",
+    "test": "node --test test/middleware.test.mjs"
+  },
+  "keywords": [
+    "magpie",
+    "magpie-plugin",
+    "middleware",
+    "responses",
+    "channel-switch",
+    "azure-openai"
+  ],
+  "license": "MIT",
+  "engines": {
+    "node": ">=20"
+  },
+  "magpie": {
+    "middleware": "./middleware.mjs",
+    "page": {
+      "title": "Channel session repair",
+      "titles": {
+        "zh": "渠道会话修复",
+        "zh-TW": "頻道會話修復"
+      },
+      "file": "page/index.html",
+      "icon": "page/icon.svg"
+    },
+    "options": {
+      "middleware": {
+        "enabled": true,
+        "providers": [
+          "*"
+        ],
+        "models": [],
+        "mode": "safe",
+        "dropItemReferences": false,
+        "stripPreviousResponseId": false,
+        "stripConversation": false
+      }
+    },
+    "permissions": [
+      "providers:list"
+    ]
+  }
+}

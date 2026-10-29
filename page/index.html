@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>渠道会话修复</title>
+<link rel="stylesheet" href="style.css">
+<script src="_magpie/bridge.js"></script>
+<script src="app.js" defer></script>
+</head>
+<body>
+<header class="hero">
+  <div class="mark">CR</div>
+  <div>
+    <p class="eyebrow">MAGPIE MIDDLEWARE</p>
+    <h1>渠道会话修复</h1>
+    <p class="lede">处理切换上游渠道后，同一会话对象失效导致的 400。正常请求默认保留会话指针和加密内容。</p>
+  </div>
+</header>
+<main>
+  <section class="card">
+    <div class="row main-row">
+      <div><h2>启用中间件</h2><p>关闭后不再修改任何 Responses 请求。</p></div>
+      <label class="switch"><input id="enabled" type="checkbox"><span></span></label>
+    </div>
+  </section>
+  <section class="card">
+    <h2>生效范围</h2>
+      <div class="field">
+        <span>渠道范围</span>
+        <label class="check-row compact">
+          <input id="allProviders" type="checkbox">
+          <span><b>所有 Responses 渠道</b><small>默认覆盖所有渠道，后续可按具体渠道缩小范围。</small></span>
+        </label>
+        <div id="providerList" class="provider-list" aria-live="polite"></div>
+        <small id="providerHint">正在读取 Magpie 渠道列表…</small>
+      </div>
+    <label class="field"><span>模型范围</span><textarea id="models" rows="3" placeholder="留空表示不限模型"></textarea><small>例如 deepseek/*, gpt-*；留空表示不限模型。</small></label>
+  </section>
+  <section class="card">
+    <h2>安全策略</h2>
+    <label class="field"><span>模式</span><select id="mode"><option value="safe">安全 — 默认</option><option value="aggressive">激进 — 允许清理无法恢复的引用</option></select></label>
+    <label class="check-row"><input id="dropItemReferences" type="checkbox"><span><b>移除无法恢复的引用项</b><small>默认关闭。开启后可能丢失部分上下文。</small></span></label>
+    <label class="check-row"><input id="stripPreviousResponseId" type="checkbox"><span><b>允许移除上一轮响应指针</b><small>默认关闭。没有完整历史时删除它会丢上下文。</small></span></label>
+    <label class="check-row"><input id="stripConversation" type="checkbox"><span><b>允许移除会话指针</b><small>默认关闭。只有明确可恢复历史时才建议开启。</small></span></label>
+  </section>
+  <section class="card summary"><h2>当前会做什么</h2><p id="summaryText">只移除 input[] 顶层资源 ID，保留正文、加密内容和会话指针。</p></section>
+  <div class="actions"><span id="status" role="status"></span><button id="save" type="button">保存设置</button></div>
+</main>
+</body>
+</html>
+

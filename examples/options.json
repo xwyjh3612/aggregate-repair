@@ -1,0 +1,13 @@
+{
+  "middleware": {
+    "enabled": true,
+    "providers": [
+      "*"
+    ],
+    "models": [],
+    "mode": "safe",
+    "dropItemReferences": false,
+    "stripPreviousResponseId": false,
+    "stripConversation": false
+  }
+}
