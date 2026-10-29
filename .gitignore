@@ -7,3 +7,10 @@ coverage/
 fixtures/capture-request.log
 fixtures/*.pid
 test/*.pid
+fixtures/
+index.mjs
+install-magpie-plugin.ps1
+一键安装.cmd
+page/providers-section.html
+test/loopback.test.mjs
+test/plugin.test.mjs
