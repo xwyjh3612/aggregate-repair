@@ -115,11 +115,13 @@ magpie plugin add github:xwyjh3612/aggregate-repair
 
 安装后，在 Magpie 的插件设置中启用“渠道会话修复”。
 
-如果已克隆源码，可以在仓库目录双击：
+如果已下载插件文件或克隆源码，请先解压完整目录，再双击：
 
 ```text
-install.cmd
+一键安装.cmd
 ```
+
+`install.cmd` 也是同一个安装入口。安装失败时窗口会显示具体原因；重新安装会保留已有插件设置。
 
 或在仓库目录执行：
 

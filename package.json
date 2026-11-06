@@ -13,6 +13,10 @@
   "type": "module",
   "files": [
     "middleware.mjs",
+    "install.cmd",
+    "install.ps1",
+    "一键安装.cmd",
+    "install-magpie-plugin.ps1",
     "page/index.html",
     "page/app.js",
     "page/style.css",
@@ -23,7 +27,7 @@
   ],
   "scripts": {
     "check": "node --check middleware.mjs && node --check page/app.js",
-    "test": "node --test test/middleware.test.mjs",
+    "test": "node --test test/middleware.test.mjs test/installer.test.mjs",
     "prepublishOnly": "npm run check && npm test"
   },
   "keywords": [
