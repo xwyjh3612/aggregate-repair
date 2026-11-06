@@ -54,7 +54,8 @@ Codex → PPBind → Magpie(middleware) → 上游渠道
     "mode": "safe",
     "dropItemReferences": false,
     "stripPreviousResponseId": false,
-    "stripConversation": false
+    "stripConversation": false,
+    "rotateSessionOnChange": true
   }
 }
 ```
@@ -100,13 +101,27 @@ Codex → PPBind → Magpie(middleware) → 上游渠道
 
 ## 安装
 
-在当前目录双击：
+从 npm 安装：
+
+```powershell
+magpie plugin add npm:magpie-aggregate-repair
+```
+
+也可以直接从 GitHub 安装：
+
+```powershell
+magpie plugin add github:xwyjh3612/aggregate-repair
+```
+
+安装后，在 Magpie 的插件设置中启用“渠道会话修复”。
+
+如果已克隆源码，可以在仓库目录双击：
 
 ```text
 install.cmd
 ```
 
-或执行：
+或在仓库目录执行：
 
 ```powershell
 magpie plugin add .
@@ -134,8 +149,23 @@ npm test
 npm pack --dry-run
 ```
 
+## 发布
+
+包发布到 npm 后，可以用上面的 npm 命令安装。发布前会自动执行语法检查和测试：
+
+```powershell
+npm login --registry=https://registry.npmjs.org
+npm publish
+```
+
+后续更新先提升 `package.json` 中的版本号，再提交代码并发布；npm 不允许重复发布同一个版本。
+
+公开 GitHub 仓库添加 `magpie-plugin` topic 后，会显示在 Magpie 的“插件 → 发现 → Unofficial, on GitHub”区域。详情见 [Magpie 插件发布文档](https://usemagpie.ai/docs/plugins)。
+
 ## 许可证
 
 MIT
 
+## 409 会话绑定
 
+当请求中带有渠道或模型信息时，插件会按“渠道 + 模型”派生稳定的上游会话 ID。同一渠道/模型保持连续，切换渠道或模型后自动使用新的会话 ID，避免旧绑定继续返回 409。

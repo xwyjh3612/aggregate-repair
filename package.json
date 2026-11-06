@@ -1,18 +1,30 @@
 {
   "name": "magpie-aggregate-repair",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "Magpie middleware for invalid Responses item IDs after an upstream channel switch",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xwyjh3612/aggregate-repair.git"
+  },
+  "homepage": "https://github.com/xwyjh3612/aggregate-repair#readme",
+  "bugs": {
+    "url": "https://github.com/xwyjh3612/aggregate-repair/issues"
+  },
   "type": "module",
   "files": [
     "middleware.mjs",
-    "page",
+    "page/index.html",
+    "page/app.js",
+    "page/style.css",
+    "page/icon.svg",
     "README.md",
     "LICENSE",
     "examples/options.json"
   ],
   "scripts": {
     "check": "node --check middleware.mjs && node --check page/app.js",
-    "test": "node --test test/middleware.test.mjs"
+    "test": "node --test test/middleware.test.mjs",
+    "prepublishOnly": "npm run check && npm test"
   },
   "keywords": [
     "magpie",
@@ -26,7 +38,13 @@
   "engines": {
     "node": ">=20"
   },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
   "magpie": {
+    "name": "渠道会话修复",
+    "icon": "https://raw.githubusercontent.com/xwyjh3612/aggregate-repair/main/page/icon.svg",
     "middleware": "./middleware.mjs",
     "page": {
       "title": "Channel session repair",
@@ -47,7 +65,8 @@
         "mode": "safe",
         "dropItemReferences": false,
         "stripPreviousResponseId": false,
-        "stripConversation": false
+        "stripConversation": false,
+        "rotateSessionOnChange": true
       }
     },
     "permissions": [

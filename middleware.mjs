@@ -9,6 +9,7 @@ const DEFAULTS = Object.freeze({
   dropItemReferences: false,
   stripPreviousResponseId: false,
   stripConversation: false,
+  rotateSessionOnChange: true,
 })
 
 function stringList(value, fallback, field) {
@@ -38,6 +39,9 @@ function normalize(options) {
     stripConversation: raw.stripConversation === undefined
       ? DEFAULTS.stripConversation
       : Boolean(raw.stripConversation),
+    rotateSessionOnChange: raw.rotateSessionOnChange === undefined
+      ? DEFAULTS.rotateSessionOnChange
+      : Boolean(raw.rotateSessionOnChange),
   }
 }
 
@@ -65,7 +69,46 @@ function looksLikeFullHistory(input) {
   return hasDeveloper && hasUser
 }
 
-function repair(body, options) {
+function hash32(text) {
+  let h = 2166136261
+  for (let i = 0; i < text.length; i += 1) {
+    h ^= text.charCodeAt(i)
+    h = Math.imul(h, 16777619) >>> 0
+  }
+  return h.toString(16).padStart(8, "0")
+}
+
+function sessionScope(ctx) {
+  return [ctx?.provider?.id, ctx?.provider?.account, ctx?.provider?.model, ctx?.model].join("\0")
+}
+
+function rotateSession(value, ctx, options) {
+  if (!options.rotateSessionOnChange) return false
+  const metadata = value.client_metadata && typeof value.client_metadata === "object" ? value.client_metadata : null
+  const original = metadata?.session_id || metadata?.thread_id || value.prompt_cache_key
+  if (typeof original !== "string" || !original.trim()) return false
+  const prefix = "mgr-" + hash32(sessionScope(ctx))
+  if (original.startsWith(prefix + "-")) return false
+  const next = prefix + "-" + hash32(original + "\0" + sessionScope(ctx))
+  let changed = false
+  if (value.prompt_cache_key !== next) {
+    value.prompt_cache_key = next
+    changed = true
+  }
+  if (metadata) {
+    if (metadata.session_id !== undefined || metadata.thread_id !== undefined) {
+      if (metadata.session_id !== next) { metadata.session_id = next; changed = true }
+      if (metadata.thread_id !== undefined && metadata.thread_id !== next) { metadata.thread_id = next; changed = true }
+    }
+  }
+  if (value.session_id !== undefined && value.session_id !== next) {
+    value.session_id = next
+    changed = true
+  }
+  return changed
+}
+
+function repair(body, options, ctx) {
   if (!body || typeof body !== "object" || Array.isArray(body)) return undefined
   let value
   try {
@@ -89,7 +132,7 @@ function repair(body, options) {
 
   if (options.mode === "safe" && references.length && !options.dropItemReferences) return undefined
 
-  let changed = false
+  let changed = rotateSession(value, ctx, options)
   const canStripPointer = options.mode === "aggressive" || fullHistory
   if (hasPrevious && options.stripPreviousResponseId && canStripPointer) {
     delete value.previous_response_id
@@ -130,7 +173,7 @@ export function onProvider(body, ctx) {
   if (!options.enabled) return undefined
   if (ctx?.protocol && ctx.protocol !== "responses") return undefined
   if (!targetMatches(ctx?.provider, options, ctx)) return undefined
-  return repair(body, options)
+  return repair(body, options, ctx)
 }
 
-export const _internal = { normalize, patternMatches, targetMatches, looksLikeFullHistory, repair }
+export const _internal = { normalize, patternMatches, targetMatches, looksLikeFullHistory, rotateSession, repair }

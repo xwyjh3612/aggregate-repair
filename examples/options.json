@@ -8,6 +8,7 @@
     "mode": "safe",
     "dropItemReferences": false,
     "stripPreviousResponseId": false,
-    "stripConversation": false
+    "stripConversation": false,
+    "rotateSessionOnChange": true
   }
 }

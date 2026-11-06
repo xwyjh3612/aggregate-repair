@@ -58,6 +58,32 @@ test("removes the pointer only when explicitly enabled and full history is visib
   assert.equal(out.previous_response_id, undefined)
 })
 
+test("rotates the upstream session id when channel or model changes", () => {
+  const body = {
+    prompt_cache_key: "original-session",
+    client_metadata: { session_id: "original-session", thread_id: "original-session" },
+    input: [{ type: "message", role: "user", content: [{ type: "input_text", text: "hello" }] }],
+  }
+  const first = onProvider(body, {
+    protocol: "responses",
+    model: "model-a",
+    provider: { id: "relay-a", model: "model-a" },
+    options: { middleware: { providers: ["*"], rotateSessionOnChange: true } },
+  })
+  assert.ok(first)
+  assert.match(first.prompt_cache_key, /^mgr-/)
+  assert.equal(first.client_metadata.session_id, first.prompt_cache_key)
+  const second = onProvider(first, {
+    protocol: "responses",
+    model: "model-b",
+    provider: { id: "relay-b", model: "model-b" },
+    options: { middleware: { providers: ["*"], rotateSessionOnChange: true } },
+  })
+  assert.ok(second)
+  assert.notEqual(second.prompt_cache_key, first.prompt_cache_key)
+  assert.equal(second.client_metadata.session_id, second.prompt_cache_key)
+})
+
 test("leaves other channels and protocols untouched", () => {
   const body = payload()
   assert.equal(onProvider(body, {

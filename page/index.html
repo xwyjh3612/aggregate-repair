@@ -43,6 +43,7 @@
     <label class="check-row"><input id="dropItemReferences" type="checkbox"><span><b>移除无法恢复的引用项</b><small>默认关闭。开启后可能丢失部分上下文。</small></span></label>
     <label class="check-row"><input id="stripPreviousResponseId" type="checkbox"><span><b>允许移除上一轮响应指针</b><small>默认关闭。没有完整历史时删除它会丢上下文。</small></span></label>
     <label class="check-row"><input id="stripConversation" type="checkbox"><span><b>允许移除会话指针</b><small>默认关闭。只有明确可恢复历史时才建议开启。</small></span></label>
+    <label class="check-row"><input id="rotateSessionOnChange" type="checkbox"><span><b>渠道或模型变化时轮换会话 ID</b><small>默认开启。用于避免旧会话绑定到已不可用的模型或渠道后返回 409。</small></span></label>
   </section>
   <section class="card summary"><h2>当前会做什么</h2><p id="summaryText">只移除 input[] 顶层资源 ID，保留正文、加密内容和会话指针。</p></section>
   <div class="actions"><span id="status" role="status"></span><button id="save" type="button">保存设置</button></div>

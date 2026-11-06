@@ -57,12 +57,14 @@
   $("dropItemReferences").checked = mw.dropItemReferences === true
   $("stripPreviousResponseId").checked = mw.stripPreviousResponseId === true
   $("stripConversation").checked = mw.stripConversation === true
+  $("rotateSessionOnChange").checked = mw.rotateSessionOnChange !== false
 
   const paintSummary = () => {
     const removals = ["input[] 顶层资源 ID"]
     if ($("dropItemReferences").checked) removals.push("无法恢复的引用项")
     if ($("stripPreviousResponseId").checked) removals.push("上一轮响应指针")
     if ($("stripConversation").checked) removals.push("会话指针")
+    if ($("rotateSessionOnChange").checked) removals.push("渠道或模型变化时的旧会话 ID")
     $("summaryText").textContent = "当前会移除：" + removals.join("、") + "。"
   }
   document.querySelectorAll("input, select").forEach((el) => el.addEventListener("change", paintSummary))
@@ -88,6 +90,7 @@
           dropItemReferences: $("dropItemReferences").checked,
           stripPreviousResponseId: $("stripPreviousResponseId").checked,
           stripConversation: $("stripConversation").checked,
+          rotateSessionOnChange: $("rotateSessionOnChange").checked,
         },
       }
       const saved = await magpie.options.set(next)
