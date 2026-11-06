@@ -1,6 +1,6 @@
 {
   "name": "magpie-aggregate-repair",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "description": "Magpie middleware for invalid Responses item IDs after an upstream channel switch",
   "repository": {
     "type": "git",
