@@ -11,16 +11,16 @@ Use the same resource that created the item to access it.
 
 ## 解决方式
 
-插件在 Magpie 内运行，不修改 Codex 和 PPBind 配置。
+插件在 Magpie 内运行，不修改 Codex 配置。
 
 ```text
-Codex → PPBind → Magpie → 上游渠道
+Codex → Magpie → 上游渠道
 ```
 
 安装后：
 
 ```text
-Codex → PPBind → Magpie(middleware) → 上游渠道
+Codex → Magpie(middleware) → 上游渠道
 ```
 
 ## 图形设置
