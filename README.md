@@ -151,6 +151,37 @@ npm pack --dry-run
 
 ## 发布
 
+### 自动发布（推荐）
+
+仓库的 `.github/workflows/npm-publish.yml` 使用 GitHub Actions 和 npm Trusted Publishing（OIDC）。配置一次后，推送与包版本一致的 `v*` 标签会自动检查、测试并发布到 npm，附带来源证明。
+
+在 npm 的包设置中添加 GitHub Actions Trusted Publisher，填写：
+
+| 字段 | 值 |
+| --- | --- |
+| Organization or user | `xwyjh3612` |
+| Repository | `aggregate-repair` |
+| Workflow filename | `npm-publish.yml` |
+| Environment name | 留空 |
+| Allowed actions | 允许直接执行 `npm publish` |
+
+工作流使用 GitHub 托管的 runner、Node.js 24 和 npm 11.21.2。认证由 OIDC 完成，无需设置 `NPM_TOKEN` 或 `NODE_AUTH_TOKEN` secret。
+
+设置新的 Trusted Publisher 后，需要在两天内成功发布一次以验证配置。后续发版执行：
+
+```powershell
+npm version patch
+git push origin main --follow-tags
+```
+
+`npm version patch` 会提升包版本、创建提交和 `v<版本号>` 标签；标签推送后触发自动发布。可以在仓库的 Actions 页面查看结果。
+
+已经上传到 Staged Packages 的版本仍需要在 npm 上确认一次；自动发布后续版本时使用 `npm publish`，不会再进入待确认区。npm 不允许直接发布已存在于待确认区的同一版本。
+
+详情见 [npm Trusted Publishing 文档](https://docs.npmjs.com/trusted-publishers/)。
+
+### 本机手动发布
+
 包发布到 npm 后，可以用上面的 npm 命令安装。发布前会自动执行语法检查和测试：
 
 ```powershell
