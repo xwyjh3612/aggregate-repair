@@ -1,7 +1,7 @@
 {
   "name": "magpie-aggregate-repair",
   "version": "0.4.3",
-  "description": "Magpie middleware for invalid Responses item IDs after an upstream channel switch",
+  "description": "Magpie 渠道切换修复中间件：修复 Codex Responses 400 报错、会话失效及 Azure OpenAI 资源 ID 不匹配。Channel switch and session repair for invalid Responses item IDs.",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/xwyjh3612/aggregate-repair.git"
@@ -36,7 +36,18 @@
     "middleware",
     "responses",
     "channel-switch",
-    "azure-openai"
+    "azure-openai",
+    "codex",
+    "openai-responses",
+    "responses-api",
+    "responses-400",
+    "session-repair",
+    "provider-switch",
+    "resource-id",
+    "渠道切换",
+    "渠道切换修复",
+    "会话修复",
+    "400修复"
   ],
   "license": "MIT",
   "engines": {
@@ -47,14 +58,19 @@
     "registry": "https://registry.npmjs.org/"
   },
   "magpie": {
-    "name": "渠道会话修复",
+    "name": "渠道切换修复 · Responses 400",
+    "summary": {
+      "en": "Magpie middleware for Codex Responses 400 errors after a channel switch: repairs invalid Azure OpenAI resource item IDs and rotates session IDs on provider or model changes.",
+      "zh": "修复 Codex 渠道切换后的 Responses 400 报错与会话失效，处理 Azure OpenAI 资源 ID 不匹配；提供渠道会话修复及模型切换时的会话 ID 轮换。",
+      "zh-TW": "修復 Codex 渠道切換後的 Responses 400 錯誤與會話失效，處理 Azure OpenAI 資源 ID 不匹配；提供渠道會話修復及模型切換時的會話 ID 輪換。"
+    },
     "icon": "https://raw.githubusercontent.com/xwyjh3612/aggregate-repair/main/page/icon.svg",
     "middleware": "./middleware.mjs",
     "page": {
-      "title": "Channel session repair",
+      "title": "Channel Switch Repair · Responses 400",
       "titles": {
-        "zh": "渠道会话修复",
-        "zh-TW": "頻道會話修復"
+        "zh": "渠道切换修复 · Responses 400",
+        "zh-TW": "渠道切換修復 · Responses 400"
       },
       "file": "page/index.html",
       "icon": "page/icon.svg"

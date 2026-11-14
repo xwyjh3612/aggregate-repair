@@ -44,7 +44,7 @@ try {
 
     Write-Host "Magpie: $magpie"
     Write-Host "插件:   $pluginPath"
-    Write-Host "正在安装渠道会话修复中间件……"
+    Write-Host "正在安装渠道切换修复 · Responses 400 中间件……"
 
     & $magpie plugin add $pluginPath | Out-Host
     if ($LASTEXITCODE -ne 0) {
@@ -53,8 +53,8 @@ try {
 
     Write-Host ""
     Write-Host "安装成功。" -ForegroundColor Green
-    Write-Host "插件页：插件 → 已安装 → 渠道会话修复"
-    Write-Host "设置页：左侧“插件”分组中的“渠道会话修复”"
+    Write-Host "插件页：插件 → 已安装 → 渠道切换修复 · Responses 400"
+    Write-Host "设置页：左侧“插件”分组中的“渠道切换修复 · Responses 400”"
     exit 0
 } catch {
     Write-Host ("安装失败：" + $_.Exception.Message) -ForegroundColor Red

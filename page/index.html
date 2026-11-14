@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>渠道会话修复</title>
+<title>渠道切换修复 · Responses 400</title>
 <link rel="stylesheet" href="style.css">
 <script src="_magpie/bridge.js"></script>
 <script src="app.js" defer></script>
@@ -13,8 +13,8 @@
   <div class="mark">CR</div>
   <div>
     <p class="eyebrow">MAGPIE MIDDLEWARE</p>
-    <h1>渠道会话修复</h1>
-    <p class="lede">处理切换上游渠道后，同一会话对象失效导致的 400。正常请求默认保留会话指针和加密内容。</p>
+    <h1>渠道切换修复 · Responses 400</h1>
+    <p class="lede">修复 Codex 等 Responses 客户端切换渠道后的会话失效与 400 报错，包括 Azure OpenAI 资源 ID 不匹配。默认保留会话指针和加密内容。</p>
   </div>
 </header>
 <main>
