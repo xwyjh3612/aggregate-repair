@@ -1,6 +1,6 @@
 {
   "name": "magpie-aggregate-repair",
-  "version": "0.4.3",
+  "version": "0.4.4",
   "description": "Magpie 渠道切换修复中间件：修复 Codex Responses 400 报错、会话失效及 Azure OpenAI 资源 ID 不匹配。Channel switch and session repair for invalid Responses item IDs.",
   "repository": {
     "type": "git",
