@@ -1,6 +1,6 @@
 {
   "name": "magpie-aggregate-repair",
-  "version": "0.4.4",
+  "version": "0.4.5",
   "description": "修复Codex切换渠道 400 报错，保留聊天内容。适用于 Codex 等 Responses 客户端",
   "repository": {
     "type": "git",
